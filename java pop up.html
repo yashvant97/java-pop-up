@@ -1,0 +1,61 @@
+<html>
+<body onload="getData()">
+<script language="javaScript">
+var Questions = new Array("Question 1", "Question 2",
+                          "Question 3", "Question 4");
+var NextQuestion=0;
+var Responses = new Array();
+var ResponseCount=0;
+var IntervalID;
+
+function getData()
+{
+      document.getElementById('prompt').innerHTML = Questions[NextQuestion];
+      IntervalID = setInterval('checkData()', 500);
+}
+
+
+function checkData()
+{
+   var cBoxes = document.forms['myForm'].elements['input'];
+   
+   for (var i=0; i < cBoxes.length; i++)
+   {
+      if (cBoxes[i].checked == true)
+      {
+          Responses[ResponseCount] = cBoxes[i].value;
+          ResponseCount++;
+       
+          cBoxes[i].checked = false;
+       
+          if (NextQuestion+1 < Questions.length)
+          {
+             NextQuestion++;
+             document.getElementById('prompt').innerHTML = Questions[NextQuestion];
+          }
+          else
+          {
+             document.getElementById('prompt').innerHTML = "No more questions";
+             clearInterval(IntervalID);
+             alert(Responses);
+          }
+      }
+   }
+   
+
+}
+</script>
+<form method="POST" name="myForm">
+  <table border="1" width="100%">
+    <tr>
+      <td width="100%" id="prompt"> </td>
+    </tr>
+    <tr>
+      <td width="100%" > <input type="radio" value="1" name="input">
+        Selection 1    <input type="radio" name="input" value="2">
+        Selection 2</td>
+    </tr>
+</table>
+</form>
+</body>
+</html>
